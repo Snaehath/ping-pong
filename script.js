@@ -26,10 +26,12 @@ function calculateMousePos(evt) {
     };
 }
 
-function handleMouseClick(){
-    player1Score = 0;
-    player2Score = 0;
-    winningScreen = false;
+function handleMouseClick(evt) {
+    if(showingWinScreen) {
+        player1Score = 0;
+        player2Score = 0;
+        showingWinScreen = false;
+    }
 }
 
 window.onload = function(){
@@ -68,6 +70,9 @@ function computerMovement(){
 }
 
 function moveEveryThing() {
+    if(winningScreen) {
+        return;
+    }
     computerMovement()
     ballX += ballSpeedX;
     ballY += ballSpeedY;
@@ -102,17 +107,27 @@ function moveEveryThing() {
     }
 
 }
+
+function drawNet() {
+    for(var i=0;i<canvas.height;i+=40){
+        colorRect(canvas.width/2-1,i,2,20,'white')
+    }
+}
 function drawEverything() {
     // black screen
     colorRect(0, 0, canvas.width, canvas.height,'black');
-    if (winningScreen){
-        if (player1Score >= winningScore){
-            
+    if(winningScreen) {
+        canvasContext.fillStyle = 'white';
+        if(player1Score >=winningScore) {
+            canvasContext.fillText('Player Wins',350,200);
         }
-        canvasContext.fillStyle = "white";
-        canvasContext.fillText('Click to continue',100,100)
+        else if (player2Score >=winningScore){
+            canvasContext.fillText('Computer Wins',350,200);
+        }
+        canvasContext.fillText('CLICK TO CONTINUE',350,500);
         return;
     }
+    drawNet();
     //left paddle
     colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT,'white');
     //right paddle(computer)

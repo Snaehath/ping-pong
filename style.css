@@ -2,3 +2,14 @@
     margin: 0;
     color-scheme: darkgray;
 }
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+canvas {
+    border: .1rem solid black;
+}
